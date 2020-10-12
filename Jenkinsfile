@@ -10,7 +10,7 @@ pipeline {
 
         stage ('Authorize to Salesforce') {
             steps {
-                sh 'sfdx force --help'
+                sh "sfdx force --help"
             }
         }
     }
