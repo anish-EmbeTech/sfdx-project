@@ -7,5 +7,11 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage ('Authorize to Salesforce') {
+            steps {
+                sh 'sfdx force --help'
+            }
+        }
     }
 }
