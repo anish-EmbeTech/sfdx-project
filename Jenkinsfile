@@ -1,7 +1,9 @@
 pipeline {
     agent any
 
-    def toolbelt = tool 'sfdx'
+    environment {
+        toolbelt = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+    }
 
     stages {
         stage ('git checkout') {
