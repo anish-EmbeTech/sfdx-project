@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         toolbelt = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+        RC
     }
 
     stages {
@@ -14,8 +15,8 @@ pipeline {
 
         stage ('Authorize to Salesforce') {
             steps {
-               env.RC = command "${toolbelt}/sfdx force --help"
-               echo "${env.RC}"
+               def rc = command "${toolbelt}/sfdx force --help"
+               echo "${rc}"
             }
         }
     }
