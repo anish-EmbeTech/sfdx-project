@@ -1,6 +1,8 @@
 pipeline {
     agent any
 
+    def toolbelt = tool 'sfdx'
+
     stages {
         stage ('git checkout') {
             steps {
@@ -10,7 +12,7 @@ pipeline {
 
         stage ('Authorize to Salesforce') {
             steps {
-                command "sfdx force --help"
+                command "${toolbelt}/sfdx force --help"
             }
         }
     }
