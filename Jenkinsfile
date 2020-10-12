@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage ('Hello World') {
+        stage ('git checkout') {
             steps {
-                echo "Hello world"
+                git credentialsId: 'embe-github', url: 'https://github.com/anish-EmbeTech/sfdx-project'
             }
         }
     }
