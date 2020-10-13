@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         def toolbelt = tool 'sfdx'
-        env.PATH = "C:\\Windows\\System32"
+        PATH = "C:\\Windows\\System32"
     }
 
     stages {
