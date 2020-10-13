@@ -7,7 +7,7 @@ pipeline {
         def SERVER_KEY_ID = "${env.SERVER_KEY_ID}"
         def SF_INSTANCE_URL = "${env.SF_INSTANCE_URL}"
 
-        HOME = "${env.WORKSPACE}"
+        HOME = "C:\\Program^ Files^ (x86)\\Jenkins\\workspace\\pipeline^ test"
         def toolbelt = tool 'sfdx'
         PATH = "C:\\Windows\\System32"
     }
