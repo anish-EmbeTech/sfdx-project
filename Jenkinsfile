@@ -1,25 +1,17 @@
 pipeline {
     agent any
-
+    
     environment {
-        toolbelt = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+        def toolbelt = tool 'sfdx'
     }
 
     stages {
-        stage ('git checkout') {
-            steps {
-                checkout scm
-            }
-        }
 
         stage ('Authorize to Salesforce') {
             steps {
-               echo "scripted block"
                script {
-                   rc = command "${toolbelt}/sfdx force:org --help"
-                   if(rc == 0){
-                       error 'command executed'
-                   }
+                   println("inside script block");
+                   "%toolbelt%/sfdx force:org --help"
                }
             }
         }
