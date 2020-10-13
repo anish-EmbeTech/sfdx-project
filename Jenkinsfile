@@ -14,7 +14,13 @@ pipeline {
 
         stage ('Authorize to Salesforce') {
             steps {
-               bat "${toolbelt}/sfdx force --help"
+               echo "scripted block"
+               script {
+                   rc = "${toolbelt}/sfdx force:org --help"
+                   if(rc == 0){
+                       error 'command executed'
+                   }
+               }
             }
         }
     }
