@@ -14,7 +14,7 @@ pipeline {
 
         stage ('Authorize to Salesforce') {
             steps {
-               command "${toolbelt}/sfdx force --help"
+                "${toolbelt}/sfdx force --help"
             }
         }
     }
