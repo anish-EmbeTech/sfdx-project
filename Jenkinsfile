@@ -17,8 +17,9 @@ pipeline {
         stage ('Authorize to Salesforce') {
             steps {
                script {
-                   println("inside script block");
-                   bat '%toolbelt%/sfdx force --help'
+                   withCredentials([file(credentialsId: SERVER_KEY_ID, variable: 'server_key_file')]) {
+                       bat '%toolbelt%/sfdx force:auth:jwt:grant --instanceurl %SF_INSTANCE_URL% --clientid %SF_CONSUMER_KEY% --username %SF_USERNAME% --jwtkeyfile %server_key_file% --setdefaultdevhubusername --setalias HubOrg2'
+                   }
                }
             }
         }
