@@ -16,7 +16,7 @@ pipeline {
             steps {
                echo "scripted block"
                script {
-                   rc = "${toolbelt}/sfdx force:org --help"
+                   rc = command "${toolbelt}/sfdx force:org --help"
                    if(rc == 0){
                        error 'command executed'
                    }
