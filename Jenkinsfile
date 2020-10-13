@@ -7,7 +7,6 @@ pipeline {
         def SERVER_KEY_ID = "${env.SERVER_KEY_ID}"
         def SF_INSTANCE_URL = "${env.SF_INSTANCE_URL}"
 
-        HOME = "C:\\Program^ Files^ (x86)\\Jenkins\\workspace\\pipeline^ test"
         def toolbelt = tool 'sfdx'
         PATH = "C:\\Windows\\System32"
     }
@@ -17,8 +16,10 @@ pipeline {
         stage ('Authorize to Salesforce') {
             steps {
                script {
-                   withCredentials([file(credentialsId: SERVER_KEY_ID, variable: 'server_key_file')]) {
-                       bat '%toolbelt%/sfdx force:auth:jwt:grant --instanceurl %SF_INSTANCE_URL% --clientid %SF_CONSUMER_KEY% --username %SF_USERNAME% --jwtkeyfile %server_key_file% --setdefaultdevhubusername --setalias HubOrg2'
+                   withEnv(["HOME=${env.WORKSPACE}"]) {
+                    withCredentials([file(credentialsId: SERVER_KEY_ID, variable: 'server_key_file')]) {
+                        bat '%toolbelt%/sfdx force:auth:jwt:grant --instanceurl %SF_INSTANCE_URL% --clientid %SF_CONSUMER_KEY% --username %SF_USERNAME% --jwtkeyfile %server_key_file% --setdefaultdevhubusername --setalias HubOrg2'
+                    }
                    }
                }
             }
