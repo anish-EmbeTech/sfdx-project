@@ -11,7 +11,7 @@ pipeline {
             steps {
                script {
                    println("inside script block");
-                   "%toolbelt%/sfdx force --help"
+                   bat '%toolbelt%/sfdx force --help'
                }
             }
         }
