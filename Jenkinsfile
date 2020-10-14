@@ -25,7 +25,7 @@ pipeline {
         stage ('Create a dev sandbox org') {
             steps {
                 script {
-                    bat "\"${toolbelt}\" force:org:create --type=${SANDBOX_TYPE} --targetusername HubOrg2 --definitionfile config/developer-sandbox-def.json -a MyDevSandbox -s -w 30"
+                    bat "\"${toolbelt}\" force:org:create -t sandbox -v HubOrg2 -f config/developer-sandbox-def.json -a MyDevSandbox -s -w 30"
                 }
             }
         }
