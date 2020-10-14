@@ -22,10 +22,10 @@ pipeline {
             }
         }
 
-        stage ('Create a scratch org') {
+        stage ('Create a dev sandbox org') {
             steps {
                 script {
-                    bat "\"${toolbelt}\" force:org:create --targetdevhubusername HubOrg2 --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --wait 10 --durationdays 1"
+                    bat "\"${toolbelt}\" force:org:create --type sandbox --targetusername HubOrg2 --definitionfile config/developer-sandbox-def.json -a MyDevSandbox -s -w 30"
                 }
             }
         }
