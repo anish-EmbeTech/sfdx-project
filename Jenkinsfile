@@ -27,7 +27,9 @@ pipeline {
         stage ('Create a scratch org') {
             steps {
                 script {
-                    bat "\"${toolbelt}\" force:org:create --targetdevhubusername HubOrg2 --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --wait 10 --durationdays 1"
+                    withCredentials([file(credentialsId: SERVER_KEY_ID, variable: 'server_key_file')]) {
+                        bat "\"${toolbelt}\" force:org:create --targetdevhubusername HubOrg2 --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --wait 10 --durationdays 1"
+                    }
                 }
             }
         }
