@@ -7,7 +7,7 @@ pipeline {
         SERVER_KEY_ID = credentials('29cc9059-e7f3-449c-8e94-92a6961a548b')
         def SF_INSTANCE_URL = "${env.SF_INSTANCE_URL}"
 
-        
+        SANDBOX_TYPE = "sandbox"
         def toolbelt = tool 'sfdx'
         PATH = "C:\\Windows\\System32"
     }
@@ -25,7 +25,7 @@ pipeline {
         stage ('Create a dev sandbox org') {
             steps {
                 script {
-                    bat "\"${toolbelt}\" force:org:create --type sandbox --targetusername HubOrg2 --definitionfile config/developer-sandbox-def.json -a MyDevSandbox -s -w 30"
+                    bat "\"${toolbelt}\" force:org:create --type ${SANDBOX_TYPE} --targetusername HubOrg2 --definitionfile config/developer-sandbox-def.json -a MyDevSandbox -s -w 30"
                 }
             }
         }
