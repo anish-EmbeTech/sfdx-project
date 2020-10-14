@@ -1,11 +1,5 @@
 {
   "orgName": "EmbeTech Org",
   "edition": "Developer",
-  "features": [],
-  "orgPreferences": {
-    "enabled": [
-      "S1DesktopEnabled"
-    ],
-    "disabled": []
-  }
+  "features": []
 }
