@@ -25,7 +25,6 @@ pipeline {
         stage ('deploy to sandbox') {
             steps {
                 script {
-                    bat "md src"
                     bat "\"${toolbelt}\" force:source:convert -d src"
                     bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"
                 }
