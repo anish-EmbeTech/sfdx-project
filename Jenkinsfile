@@ -6,8 +6,7 @@ pipeline {
         def SF_USERNAME = "${env.SF_USERNAME}"
         SERVER_KEY_ID = credentials('29cc9059-e7f3-449c-8e94-92a6961a548b')
         def SF_INSTANCE_URL = "${env.SF_INSTANCE_URL}"
-
-        SANDBOX_TYPE = "sandbox"
+        def TEST_LEVEL='RunLocalTests'
         def toolbelt = tool 'sfdx'
         PATH = "C:\\Windows\\System32"
     }
@@ -26,7 +25,7 @@ pipeline {
             steps {
                 script {
                     bat "\"${toolbelt}\" force:source:convert -d src"
-                    bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"  
+                    bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2 --testlevel ${TEST_LEVEL}"  
                 }
             }
         }
