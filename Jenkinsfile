@@ -25,7 +25,8 @@ pipeline {
         stage ('deploy to sandbox') {
             steps {
                 script {
-                    bat "\"${toolbelt}\" force:source:push --targetusername HubOrg2"
+                    mkdir src
+                    bat "\"${toolbelt}\" force:source:convert -d src"
                 }
             }
         }
