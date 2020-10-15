@@ -26,8 +26,8 @@ pipeline {
             steps {
                 script {
                     bat "\"${toolbelt}\" force:source:convert -d src"
-                    rc = bat returnStdout: true, script: "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"
-                    printf rc
+                    stdout = bat (returnStdout:true , script: "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2").trim
+                    println stdout
                     /*if (rc != 0) {
                         error 'validation failed'
                     }else {
