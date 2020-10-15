@@ -26,12 +26,13 @@ pipeline {
             steps {
                 script {
                     bat "\"${toolbelt}\" force:source:convert -d src"
-                    rc = bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2 --json"
-                    if (rc !=0) {
+                    rc = bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"
+                    println(rc)
+                    /*if (rc != 0) {
                         error 'validation failed'
                     }else {
                         bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2 --json"
-                    }
+                    }*/
                 }
             }
         }
