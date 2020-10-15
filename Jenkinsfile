@@ -22,19 +22,22 @@ pipeline {
             }
         }
 
-        stage ('validate & deploy to sandbox') {
+        stage ('validate to sandbox') {
             steps {
                 script {
                     bat "\"${toolbelt}\" force:source:convert -d src"
-                    stdout = bat (returnStdout:true , script: "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2").trim()
-                    println(stdout)
-                    /*if (rc != 0) {
-                        error 'validation failed'
-                    }else {
-                        bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2 --json"
-                    }*/
+                    bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"  
                 }
             }
         }
+
+        stage ('deploy to sandbox') {
+            steps {
+                script {
+                    bat "\"${toolbelt}\" force:source:convert -d src"
+                    bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2 --json"
+                }
+            }
+        } 
     }
 }
