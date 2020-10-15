@@ -25,7 +25,7 @@ pipeline {
         stage ('deploy to sandbox') {
             steps {
                 script {
-                    mkdir src
+                    md "src"
                     bat "\"${toolbelt}\" force:source:convert -d src"
                 }
             }
