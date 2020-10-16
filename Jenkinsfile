@@ -24,6 +24,7 @@ pipeline {
         stage ('validate to sandbox') {
             steps {
                 script {
+                    bat "mkdir src"
                     bat "\"${toolbelt}\" force:source:convert -d src"
                     bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"  
                 }
@@ -41,8 +42,8 @@ pipeline {
         stage ('deploy to sandbox') {
             steps {
                 script {
-                    bat "\"${toolbelt}\" force:source:convert -d src"
-                    bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2 --json"
+                    bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2"
+                    bat "rmdir src"
                 }
             }
         } 
