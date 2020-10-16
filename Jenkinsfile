@@ -43,7 +43,7 @@ pipeline {
             steps {
                 script {
                     bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2"
-                    bat "rmdir src"
+                    bat "rmdir /Q /S src"
                 }
             }
         } 
