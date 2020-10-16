@@ -25,7 +25,15 @@ pipeline {
             steps {
                 script {
                     bat "\"${toolbelt}\" force:source:convert -d src"
-                    bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2 --testlevel ${TEST_LEVEL}"  
+                    bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"  
+                }
+            }
+        }
+
+        stage ('run tests') {
+            steps {
+                script {
+                    bat "\"${toolbelt}\" force:apex:test:run --targetusername HubOrg2 --wait 10 --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"  
                 }
             }
         }
