@@ -33,7 +33,7 @@ pipeline {
         stage ('run tests') {
             steps {
                 script {
-                    bat "\"${toolbelt}\" force:apex:test:run --targetusername HubOrg2 --wait 10"  
+                    bat "\"${toolbelt}\" force:apex:test:run --targetusername HubOrg2 --wait 10 --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"  
                 }
             }
         }
