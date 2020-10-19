@@ -11,13 +11,6 @@ pipeline {
         PATH = "C:\\Windows\\System32"
     }
 
-    wrappers {
-        preBuildCleanup { // Clean before build
-            includePattern('**/src/**')
-            deleteDirectories()
-            cleanupParameter('CLEANUP')
-        }
-    }
 
     stages {
 
@@ -30,6 +23,13 @@ pipeline {
         }
 
         stage ('validate to sandbox') {
+            wrappers {
+                preBuildCleanup { // Clean before build
+                includePattern('**/src/**')
+                deleteDirectories()
+                cleanupParameter('CLEANUP')
+                }
+            }
             steps {
                 script {
                     bat "mkdir src"
