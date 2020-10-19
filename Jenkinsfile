@@ -4,7 +4,7 @@ pipeline {
     environment {
         def SF_CONSUMER_KEY = "${env.SF_CONSUMER_KEY}"
         def SF_USERNAME = "${env.SF_USERNAME}"
-        SERVER_KEY_ID = credentials('server_key')
+        SERVER_KEY_ID = credentials('0b550e0d-c7a3-4c33-aacb-35a7004ed844')
         def SF_INSTANCE_URL = "${env.SF_INSTANCE_URL}"
         def TEST_LEVEL='RunLocalTests'
         def toolbelt = tool 'sfdx'
