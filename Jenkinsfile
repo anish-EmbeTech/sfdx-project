@@ -11,6 +11,14 @@ pipeline {
         PATH = "C:\\Windows\\System32"
     }
 
+    wrappers {
+        preBuildCleanup { // Clean before build
+            includePattern('**/src/**')
+            deleteDirectories()
+            cleanupParameter('CLEANUP')
+        }
+    }
+
     stages {
 
         stage ('Authorize to Salesforce') {
