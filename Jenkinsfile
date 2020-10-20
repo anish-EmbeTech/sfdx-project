@@ -16,6 +16,13 @@ pipeline {
 
         stage ('Authorize to Salesforce') {
             steps {
+                wrappers {
+                    preBuildCleanup { // Clean before build
+                    includePattern('**/src/**')
+                    deleteDirectories()
+                    cleanupParameter('CLEANUP')
+                    }
+                }
                script {
                     bat "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${SERVER_KEY_ID}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL} --setalias HubOrg2"
                }
@@ -23,13 +30,6 @@ pipeline {
         }
 
         stage ('validate to sandbox') {
-            wrappers {
-                preBuildCleanup { // Clean before build
-                includePattern('**/src/**')
-                deleteDirectories()
-                cleanupParameter('CLEANUP')
-                }
-            }
             steps {
                 script {
                     bat "mkdir src"
