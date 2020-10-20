@@ -46,11 +46,11 @@ pipeline {
                     bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2"
                 }
             }
-        }
-        post {
+        } 
+    }
+    post {
             always {
                 deleteDir() /* clean up our workspace */
             }
-        } 
     }
 }
