@@ -17,13 +17,6 @@ pipeline {
         stage ('Authorize to Salesforce') {
             steps {
                script {
-                   wrappers {
-                    preBuildCleanup { // Clean before build
-                    includePattern('**/src/**')
-                    deleteDirectories()
-                    cleanupParameter('CLEANUP')
-                    }
-                }
                     bat "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${SERVER_KEY_ID}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL} --setalias HubOrg2"
                }
             }
@@ -53,6 +46,11 @@ pipeline {
                     bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2"
                     bat "rmdir /Q /S src"
                 }
+            }
+        }
+        post {
+            always {
+                deleteDir() /* clean up our workspace */
             }
         } 
     }
