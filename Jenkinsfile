@@ -13,40 +13,44 @@ pipeline {
 
 
     stages {
+    stage ('develop') { 
         when { branch 'develop' }
-        stage ('Authorize to Salesforce') {
-            steps {
-               script {
-                    bat "\"${toolbelt}\" force:auth:logout --targetusername ${SF_USERNAME} -p"
-                    bat "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${SERVER_KEY_ID}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL} --setalias HubOrg2"
-               }
+        stages {
+            stage ('Authorize to Salesforce') {
+                steps {
+                    script {
+                            bat "\"${toolbelt}\" force:auth:logout --targetusername ${SF_USERNAME} -p"
+                            bat "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${SERVER_KEY_ID}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL} --setalias HubOrg2"
+                    }
+                }
             }
-        }
 
-        stage ('validate to sandbox') {
-            steps {
-                script {
-                    bat "mkdir src"
-                    bat "\"${toolbelt}\" force:source:convert -d src"
-                    bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"  
+            stage ('validate to sandbox') {
+                steps {
+                    script {
+                        bat "mkdir src"
+                        bat "\"${toolbelt}\" force:source:convert -d src"
+                        bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"  
+                    }
+                }
+            }
+
+            stage ('run tests') {
+                steps {
+                    script {
+                        bat "\"${toolbelt}\" force:apex:test:run --targetusername HubOrg2 --wait 10 --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"  
+                    }
+                }
+            }
+
+            stage ('deploy to sandbox') {
+                steps {
+                    script {
+                        bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2"
+                    }
                 }
             }
         }
-
-        stage ('run tests') {
-            steps {
-                script {
-                    bat "\"${toolbelt}\" force:apex:test:run --targetusername HubOrg2 --wait 10 --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"  
-                }
-            }
-        }
-
-        stage ('deploy to sandbox') {
-            steps {
-                script {
-                    bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2"
-                }
-            }
-        } 
+    }     
     }
 }
