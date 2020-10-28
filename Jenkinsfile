@@ -13,7 +13,7 @@ pipeline {
 
 
     stages {
-
+        when { branch 'develop' }
         stage ('Authorize to Salesforce') {
             steps {
                script {
