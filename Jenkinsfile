@@ -13,14 +13,14 @@ pipeline {
 
 
     stages {
-    stage ('develop') { 
+    stage ('when branch is develop') { 
         when { branch 'develop' }
         stages {
             stage ('Authorize to Salesforce') {
                 steps {
                     script {
                             bat "\"${toolbelt}\" force:auth:logout --targetusername ${SF_USERNAME} -p"
-                            bat "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile ${SERVER_KEY_ID} --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL} --setalias HubOrg2"
+                            bat "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${SERVER_KEY_ID}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL} --setalias HubOrg2"
                     }
                 }
             }
@@ -28,9 +28,10 @@ pipeline {
             stage ('validate to sandbox') {
                 steps {
                     script {
-                        bat "mkdir src"
-                        bat "\"${toolbelt}\" force:source:convert -d src"
-                        bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"  
+                        //bat "mkdir src"
+                        //bat "\"${toolbelt}\" force:source:convert -d src"
+                        //bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"
+                        bat "\"${toolbelt}\" force:source:deploy -p force-app -c -u HubOrg2"
                     }
                 }
             }
@@ -46,7 +47,7 @@ pipeline {
             stage ('deploy to sandbox') {
                 steps {
                     script {
-                        bat "\"${toolbelt}\" force:mdapi:deploy --wait 10 -d src --targetusername HubOrg2"
+                        bat "\"${toolbelt}\" force:source:deploy -p force-app -u HubOrg2"
                     }
                 }
             }
