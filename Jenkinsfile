@@ -56,7 +56,7 @@ pipeline {
     }
 
     stage ('when branch is release') { 
-        when { branch 'release*' }
+        when { branch 'release/*' }
         stages {
             stage ('Authorize to Salesforce') {
                 steps {
