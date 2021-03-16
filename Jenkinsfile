@@ -17,6 +17,7 @@ pipeline {
     stage ('when branch is develop') { 
         when { branch 'develop' }
         stages {
+
             stage ('Authorize to Salesforce') {
                 steps {
                     script {
@@ -27,12 +28,17 @@ pipeline {
             }
 
             stage ('validate to sandbox') {
+                environment {
+                    fetch_all_tags = bat(script: 'git fetch --tags', , returnStdout: true).trim()
+                    qa_tag = bat(script: 'git describe --match "gp-*" --abbrev=0 --tags HEAD', , returnStdout: true).trim()
+                }
                 steps {
                     script {
                         //bat "mkdir src"
                         //bat "\"${toolbelt}\" force:source:convert -d src"
                         //bat "\"${toolbelt}\" force:mdapi:deploy --checkonly --wait 10 -d src --targetusername HubOrg2"
-                        bat "\"${toolbelt}\" force:source:deploy -p force-app -c -u HubOrg2"
+                        bat "\"${toolbelt}\" sgd:source:delta --from ${qa_tag} --to HEAD --output . --ignore .forceignore"
+                        bat "echo --- package.xml generated with added and modified metadata from ${qa_tag}"
                     }
                 }
             }
@@ -45,13 +51,13 @@ pipeline {
                 }
             }
 
-            stage ('deploy to sandbox') {
+            /*stage ('deploy to sandbox') {
                 steps {
                     script {
                         bat "\"${toolbelt}\" force:source:deploy -p force-app -u HubOrg2"
                     }
                 }
-            }
+            }*/
         }
     }
 
