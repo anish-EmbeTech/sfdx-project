@@ -31,7 +31,8 @@ pipeline {
             stage ('validate to sandbox') {
                 environment {
                     fetch_all_tags = bat(script: "\"${gitbelt}\" fetch --tags", , returnStdout: true).trim()
-                    qa_tag = bat(script: "\"${gitbelt}\" describe --match 'gp-*' --abbrev=0 --tags HEAD", , returnStdout: true).trim()
+					get_tag = bat(script: findstr gp-., , returnStdout: true).trim()
+                    qa_tag = bat(script: "\"${gitbelt}\" describe --match ${get_tag} --abbrev=0 --tags HEAD", , returnStdout: true).trim()
                 }
                 steps {
                     script {
