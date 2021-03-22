@@ -8,6 +8,7 @@ pipeline {
         def SF_INSTANCE_URL = "${env.SF_INSTANCE_URL}"
         def TEST_LEVEL='RunLocalTests'
         def toolbelt = tool 'sfdx'
+		def gitbelt = tool 'gitnew'
         PATH = "C:\\Windows\\System32"
     }
 
@@ -29,8 +30,8 @@ pipeline {
 
             stage ('validate to sandbox') {
                 environment {
-                    fetch_all_tags = bat(script: 'git fetch --tags', , returnStdout: true).trim()
-                    qa_tag = bat(script: 'git describe --match "gp-*" --abbrev=0 --tags HEAD', , returnStdout: true).trim()
+                    fetch_all_tags = bat(script: "\"${gitbelt}\" fetch --tags", , returnStdout: true).trim()
+                    qa_tag = bat(script: "\"${gitbelt}\" describe --match "gp-*" --abbrev=0 --tags HEAD", , returnStdout: true).trim()
                 }
                 steps {
                     script {
